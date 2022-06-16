@@ -1,7 +1,5 @@
 float dot_product_sse(const float *a, const float *b, size_t n)
 {
-    const size_t chunks = n / 4;
-
     __m128 dots = _mm_setzero_ps();
     for (size_t i = 0; i < n; i += 4)
     {
@@ -14,12 +12,5 @@ float dot_product_sse(const float *a, const float *b, size_t n)
 
     float tmp[4];
     _mm_storeu_ps(tmp, dots);
-    float result = dots[0] + dots[1] + dots[2] + dots[3];
-
-    for (size_t i = chunks * 4; i < n; i++)
-    {
-        result += a[i] * b[i];
-    }
-
-    return result;
+    return dots[0] + dots[1] + dots[2] + dots[3];
 }

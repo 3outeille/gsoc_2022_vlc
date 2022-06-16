@@ -1,5 +1,5 @@
 all:
-	g++ -Wall -Wextra -O3 -msse4 benchmark.cc -o benchmark
+	g++ -g -Wall -Wextra -O3 -msse4 benchmark.cc -o benchmark
 
 clean:
 	rm -f benchmark

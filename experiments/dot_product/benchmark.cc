@@ -17,20 +17,19 @@ struct TestCase
     float *input1;
     float *input2;
     size_t iteration;
+    const size_t size;
 
     float get_random()
     {
         return (rand() / float(RAND_MAX)) * 10;
     }
 
-    const size_t SIZE = 1024 * 1024 * 10;
-
-    TestCase(size_t iteration_arg) : iteration(iteration_arg)
+    TestCase(size_t iteration_arg, const size_t size_arg) : iteration(iteration_arg), size(size_arg)
     {
-        input1 = new float[SIZE];
-        input2 = new float[SIZE];
+        input1 = new float[size];
+        input2 = new float[size];
 
-        for (size_t i = 0; i < SIZE; i++)
+        for (size_t i = 0; i < size; i++)
         {
             input1[i] = get_random();
             input2[i] = get_random();
@@ -53,7 +52,7 @@ struct TestCase
         for (size_t i = 0; i < iteration; i++)
         {
             const auto t1 = Clock::now();
-            const float r = func(input1, input2, SIZE);
+            const float r = func(input1, input2, size);
             const auto t2 = Clock::now();
 
             result = r;
@@ -70,7 +69,7 @@ struct TestCase
 
 int main()
 {
-    TestCase test = TestCase(15);
+    TestCase test = TestCase(15, 1024*1024);
 
     test.run("dot_product (naive)", dot_product);
     test.run("dot_product (sse)", dot_product_sse);
